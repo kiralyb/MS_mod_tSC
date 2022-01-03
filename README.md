@@ -32,11 +32,7 @@ Not ordinary data formats are loaded with the (https://github.com/kwikteam/npy-m
 
 ## System requirements
 
-Windows 10 64bits
-Intel i7
-32 GB RAM
-MatlabR2016a with:
-	- Signal Processing Toolbox
-	- Statistics and Machine Learning Toolbox
-	- Wavelet Toolbox
-	- Bioinformatics Toolbox
+- Windows 10 64bits
+- Intel i7
+- 32 GB RAM
+- MatlabR2016a (Signal Processing Toolbox, Statistics and Machine Learning Toolbox, Wavelet Toolbox, Bioinformatics Toolbox)
