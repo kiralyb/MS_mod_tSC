@@ -2,8 +2,8 @@ function MS_mod_tSC_main
 %MS_MOD_TSC_MAIN Main wrapper for the figures presented in the Király et
 %al. manuscript. 
 %   This code is for further analysis after running
-%   TSC_RUN_SESSION_ANALYSES on the sessions of simultaneous unit and LFP
-%   recordings.
+%   TSC_RUN_SESSION_ANALYSES on the sessions of simultaneous septal unit
+%   and hippocampal LFP recordings.
 
 %   Bálint Király
 %   Institute of Experimental Medicine, Budapest, Hungary
