@@ -4,7 +4,7 @@
 
 This repository contains MATLAB code for data analysis on the connection between theta-nested spectral components (tSCs), single unit activities and optogenetic stimulus events. Single unit clusters and hippocampal tSCs were extracted with Kilosort (https://github.com/MouseLand/Kilosort) and the tSC extraction package (https://data.mrc.ox.ac.uk/data-set/tsc).
 
-The figures and supplementary figures of 'The medial septum modulates hippocampal oscillations beyond the theta rhythm' by Király et al. can be produced with the tSC_main function relying on four datasets:
+The figures and supplementary figures of 'The medial septum modulates hippocampal oscillations beyond the theta rhythm' by Király et al. can be produced with the MS_mod_tSC_main function relying on four datasets:
 - freely moving mouse (hippocampal LFP - septal units) 
 - anesthetized rat (hippocampal LFP - septal units)
 - anesthetized mouse (hippocampal LFP - septal units)
