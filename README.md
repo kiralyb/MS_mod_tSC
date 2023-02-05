@@ -22,6 +22,7 @@ Move the .m files on your MATLAB path (Should take around a few seconds). No fur
 
 ## Dependencies
 
+Tested on MatlabR2016a and MatlabR2018
 This code uses functions from the hangya-matlab-code package for spike triggered average analyses (https://github.com/hangyabalazs/Hangya-Matlab-code).
 
 Classification of MS neurons based on their rhythmicity was performed with the ms_sync_analysis package (https://github.com/hangyabalazs/ms_sync_analysis). 
