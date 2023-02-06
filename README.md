@@ -9,6 +9,8 @@ The figures and supplementary figures of 'The medial septum modulates hippocampa
 - anesthetized rat (hippocampal LFP - septal units)
 - anesthetized mouse (hippocampal LFP - septal units)
 - optogenetic stimulation of PV experessing septal neurons in mice (hippocampal LFP, hippocampal units - septal stimulus events)
+
+
 Example session data, showing the required data format and hierarchy, is avaibale at the following link: https://drive.google.com/drive/folders/1H5beLdio0pAFR93i2OrGHdBNww7z-unu?usp=sharing
 Session data can be preprocessed with the tSC_run_session_analyses function, preprocessed data is stored in the Matrix.mat and ses_Matrix.mat files in the root directory.
 
