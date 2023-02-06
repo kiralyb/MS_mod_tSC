@@ -35,4 +35,5 @@ Not ordinary data formats are loaded with the (https://github.com/kwikteam/npy-m
 - Windows 10 64bits
 - Intel i7
 - 32 GB RAM
-- MatlabR2016a (Signal Processing Toolbox, Statistics and Machine Learning Toolbox, Wavelet Toolbox, Bioinformatics Toolbox) // Tested on MatlabR2016a and MatlabR2018
+- MatlabR2016a (Signal Processing Toolbox, Statistics and Machine Learning Toolbox, Wavelet Toolbox, Bioinformatics Toolbox)
+  Tested on MatlabR2016a and MatlabR2018
