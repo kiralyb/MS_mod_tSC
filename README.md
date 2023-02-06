@@ -12,7 +12,7 @@ The figures and supplementary figures of 'The medial septum modulates hippocampa
 
 Demo session data, showing the required data format and hierarchy, is avaibale at the following link: https://drive.google.com/drive/folders/1H5beLdio0pAFR93i2OrGHdBNww7z-unu?usp=sharing
 
-Session data can be preprocessed with the tSC_run_session_analyses function (e.g. tSC_run_session_analyses ('L:\Balint\tsc\awake_mouse\','20161989','107108','10',1,1,'awake_mouse') for the demo session, see the documentation for furhter details on the inputs), preprocessed data is stored in the Matrix.mat and ses_Matrix.mat files in the root directory.
+Session data can be preprocessed with the tSC_run_session_analyses function (e.g. tSC_run_session_analyses ('L:\Balint\tsc\awake_mouse\','20161989','107108','10',1,1,'awake_mouse') for the demo session, see the documentation for further details on the inputs). Preprocessed data is stored in the Matrix.mat and ses_Matrix.mat files in the root directory.
 
 ## Content
 
