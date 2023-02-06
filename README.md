@@ -18,7 +18,7 @@ Preprocessed data is stored in the Matrix.mat and ses_Matrix.mat files.
 
 ## Installation
 
-Move the .m files on your MATLAB path (Should take around a few seconds). No further installation is needed. 
+Move the .m files on your MATLAB path (should take around a few seconds). No further installation is needed. 
 
 ## Dependencies
 
