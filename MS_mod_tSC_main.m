@@ -9,6 +9,7 @@ function MS_mod_tSC_main
 %   Institute of Experimental Medicine, Budapest, Hungary
 %   kiraly.balint@koki.hu
 %   23-Dec-2021
+%   update: 07/02/2023
 
 %% Load awake mouse data
 mainpath='L:\Balint\tsc\awake_mouse\';
@@ -70,11 +71,10 @@ neuron_spectra(mainpath,'20161989','139140','3',1,7);
 
 % Panel G
 figure
-exID = 6;
 tSC_num = 5;
 tSC_spect = horzcat(ses_Matrix.tSCs);
 tSC_spect = reshape(tSC_spect,[size(tSC_spect,1),tSC_num,n_ses]);
-tSC_spectrum_plotter(tSC_spect,exID)
+tSC_spectrum_plotter(tSC_spect,1:n_ses)
 
 % Panel H
 figure
@@ -86,28 +86,28 @@ ylabel('Theta cycle length')
 figure
 subplot(2,3,1)
 longtheta = vertcat(ses_Matrix.longtheta);
-tsc_barplot(longtheta(:,1:tSC_num));
+tsc_box(longtheta(:,1:tSC_num));
 ylabel('Ratio of theta cycles')
 title('Long theta epochs')
 
 subplot(2,3,2)
 shorttheta = vertcat(ses_Matrix.shorttheta);
-tsc_barplot(shorttheta(:,1:tSC_num));
+tsc_box(shorttheta(:,1:tSC_num));
 title('Short theta epochs')
 
 subplot(2,3,3)
 margin_long = vertcat(ses_Matrix.margin_long);
-tsc_barplot(margin_long(:,1:tSC_num));
+tsc_box(margin_long(:,1:tSC_num));
 title('Theta transitions')
 
 subplot(2,3,4)
-tsc_barplot([longtheta(:,end - 1),1 - longtheta(:,end - 1)]);
+tsc_box([longtheta(:,end - 1),1 - longtheta(:,end - 1)]);
 
 subplot(2,3,5)
-tsc_barplot([shorttheta(:,end - 1),1 - shorttheta(:,end - 1)]);
+tsc_box([shorttheta(:,end - 1),1 - shorttheta(:,end - 1)]);
 
 subplot(2,3,6)
-tsc_barplot([margin_long(:,end - 1),1 - margin_long(:,end - 1)]);
+tsc_box([margin_long(:,end - 1),1 - margin_long(:,end - 1)]);
 
 % Panel J
 figure
@@ -116,7 +116,8 @@ tsc_box_anova(avg_cycle_speed,avg_cycle_speed,1:size(avg_cycle_speed,2));
 ylabel('Speed during theta cycles')
 
 % Panel S1A
-tSC_spectrum_plotter(tSC_spect,1:n_ses)
+exID = 6;
+tSC_spectrum_plotter(tSC_spect,exID)
 
 % Panel S1B
 figure
@@ -134,6 +135,7 @@ ylabel('Speed during theta cycles')
 
 % Panel S1D and S1E
 tSC_correlation_fig(ses_Matrix,tSC_num);
+
 %% Figure 2 and S2-S4
 % MS single neuron firing is correlated with hippocampal tSCs
 %--------------------------------------------------------------------------
@@ -141,7 +143,7 @@ tSC_correlation_fig(ses_Matrix,tSC_num);
 % Load firing properties of the neurons during different theta cycles
 tSC_num = 5;
 frate = vertcat(Matrix.frate);
-burstlength = vertcat(Matrix.burstduration);
+burstlength = vertcat(Matrix.burstlength);
 burstrate = vertcat(Matrix.burstrate);
 skipratio = vertcat(Matrix.skipratio);
 hang_theta = vertcat(Matrix.hang);
@@ -155,7 +157,9 @@ frate_norm = tsc_firingprop_norm(frate);
 burstlength_norm = tsc_firingprop_norm(burstlength);
 burstrate_norm = tsc_firingprop_norm(burstrate);
 hmvl_theta_norm = tsc_firingprop_norm(hmvl_theta);
+hang_theta_norm = bsxfun(@minus, hang_theta(:,1:end - 2), hang_theta(:,end-1));
 skipratio_norm = tsc_firingprop_norm(skipratio);
+hang_reltheta = vertcat(Matrix.reltheta_hang);
 phase_hist_align_norm = tSC_phasehist_aligner(Matrix,tSC_num);
 
 % Panel A 
@@ -172,20 +176,20 @@ ylabel('Relative firing rate')
 subplot(2,1,2)
 scatter(frate_norm(filter,1),frate_norm(filter,4),'k','x')
 hold on
-scatter(frate_norm([338,309,48],1),frate_norm([342,309,48],4),'r','x')
+scatter(frate_norm([338,309,48],1),frate_norm([338,309,48],4),'r','x')
 line([-2,2],[-2,2])
 xlim([-1.5,1.5])
 ylim([-1.5,1.5])
 xlabel('Relative firing rate during tSC1 cycles')
 ylabel('Relative firing rate during tSC4 cycles')
 
-% Panel C1 and Fig S2
+% Panel C and Fig S2C-E
 types = [0,1,13,0];
 titles = {'Phase coupled','Pacemaker','Theta follower','tSC1 activated'};
 for type = 1:4
     % define filters for the different neuron types
     if type == 1
-        filter = pRayleigh_theta(:,end) < 0.01 & frate(:,end) > 3 & (drift == 1);
+        filter = pRayleigh_theta(:,end) < 0.01 & frate(:,end) > 3 & (drift == 1);        
     elseif type == 4
         [~,MX] = max(frate_norm,[],2);
         filter = pRayleigh_theta(:,end) < 0.01 & frate(:,end) > 3 & (drift == 1) & (MX == 1);
@@ -194,9 +198,10 @@ for type = 1:4
     end
     % plot phase histogram curves
     figure
-    for tSC=1:tSC_num + 1
+    for tSC=1:tSC_num
         hold on
         errorshade(1:15,squeeze(mean(phase_hist_align_norm(filter,tSC,:),1))',squeeze(std(phase_hist_align_norm(filter,tSC,:),1)/sqrt(size(phase_hist_align_norm(filter,tSC,:),1)))', 'LineColor',Colors(tSC,:), 'ShadeColor',Colors(tSC,:), 'LineWidth', 3)        
+        %errorshade(1:15,circshift(squeeze(mean(phase_hist_reltheta(filter,tSC,:),2))',-3),circshift(squeeze(std(tSC,phase_hist_reltheta(filter,tSC,:),0,2)/sqrt(size(phase_hist_reltheta(tSC,filter,:),2)))',-3), 'LineColor',Colors(tSC,:), 'ShadeColor',Colors(tSC,:), 'LineWidth', 3) 
     end
     setmyplot_balazs;
     title(titles(type));
@@ -209,21 +214,73 @@ for type = 1:4
     xlim([1,15])
 end
 
-% Panel C2
+% Panel D
 filter = pRayleigh_theta(:,end) < 0.01 & (drift == 1) & frate(:,end) > 3;
 figure
 tsc_box_anova(hmvl_theta,hmvl_theta_norm,filter);
 ylabel('Relative strength of theta phase coupling')
 
-% Panel D
+% Panel E
 figure
 Phase_diff = hang_theta(filter,1) - hang_theta(filter,4);
 rose(Phase_diff,30)
+hold on
+rose(ones(1,20)*circ_mean(Phase_diff),360)
 title('Preferred theta phase differences tSC1-tSC4 cycles')
 
-% Panel E
+% Fig S2a-b and corresponding reviwer figs
 figure
-tsc_box_anova(burstrate,burstrate_norm,filter);
+for i = 1:6
+subplot(4,6,i) 
+rose(zeros(1,20))
+hold on
+rose(hang_theta(filter,i),30)
+end
+
+
+for i = 1:5
+subplot(4,6,i+6)
+rose(zeros(1,40))
+hold on
+rose(hang_theta_norm(filter,i),30)
+end
+
+
+for i = 1:5
+subplot(4,6,i+12) 
+rose(zeros(1,30))
+hold on
+rose(hang_reltheta(filter,i),20)
+end
+
+subplot(4,6,12)
+imagesc(mean(hang_reltheta(filter,:))')
+colorbar
+
+subplot(4,6,18)
+imagesc(mean(abs(hang_reltheta(filter,:)))')
+colorbar
+
+for i = 1:6
+    for j = 1:6
+        Sum_Phase_diff_abs(i,j) = mean(abs((angdiff(hang_theta(filter,i),hang_theta(filter,j)))));
+        Sum_Phase_diff(i,j) = mean(angdiff(hang_theta(filter,i),hang_theta(filter,j)));
+        %subplot(5,5,(i-1)*5+j)
+        %rose (angdiff(hang_theta(filter,i),hang_theta(filter,j)))
+    end
+end 
+subplot(4,2,7)
+imagesc(Sum_Phase_diff_abs)
+setmyplot_balazs
+colorbar
+subplot(4,2,8)
+imagesc(Sum_Phase_diff)
+setmyplot_balazs
+colorbar
+
+% Panel F
+figure
+p = tsc_box_anova(burstrate,burstrate_norm,filter);
 ylabel('Relative strength of theta phase coupling')
 
 % Fig S3 is created with the ms_sync_analysis package by Kocsis et al. 2021
@@ -282,7 +339,7 @@ for type = 1:types_num
     end
 end
 
-%% Figure 3, S5 and S6
+%% Figure 3, S5-S8
 % MS neurons show phase coupling to hippocampal tSCs.
 %--------------------------------------------------------------------------
 
@@ -293,7 +350,7 @@ tsc_STA(mainpath, '20161869', '45', '32', 1, 3)
 tSC_num = 4;
 p_sig = 0.05;
 minspikesnum = 10;
-significance_matrix = tSC_coupling_test(Matrix,p_sig,minspikesnum,ones(1,n),tSC_num);
+[significance_matrix,Q] = tSC_coupling_test(Matrix,p_sig,minspikesnum,ones(1,n),tSC_num);
 
 % Panel B
 tSC_neuron_coupling(mainpath,'20161989','163164','3',1,0,10)
@@ -312,35 +369,47 @@ tSC_coupled_neurons_distribution(significance_matrix,tSC_num,vertcat(Matrix.pRay
 
 % Fig S6
 tSC_coupling_shufflingcontroll(mainpath,p_sig,minspikesnum,tSC_num);
-%% Figure 4, S7 and S8
+
+% Fig S7
+tSC_neuron_firingprop_isi(mainpath, '20161869', '45', '32', 0, 3)
+tSC_neuron_firingprop_isi(mainpath,'20161989','163164','3',0,10)
+tSC_neuron_firingprop_isi(mainpath,'20161988','281282','12',0,2)
+
+% Fig S8
+tSC_coupling_epprops_comp
+
+%% Figure 4, S9 and S10
 % MS neuron firing predicts tSCs signals.
 %--------------------------------------------------------------------------
 % F4
+tSC_num = 4;
+p_sig = 0.05;
+minspikesnum = 10;
 significance_matrix = tSC_coupling_test(Matrix,p_sig,minspikesnum,ones(1,n),tSC_num);
 tSC_Zshift_plot(Matrix,significance_matrix,tSC_num);
 
-% S7 
+% S9 
 significance_matrix = tSC_coupling_test(Matrix,p_sig,minspikesnum,rythmgroupnum == 1,tSC_num);
 tSC_Zshift_plot(Matrix,significance_matrix,tSC_num);
 tSC_coupled_neurons_distribution(significance_matrix,tSC_num,pRayleigh_theta,rythmgroupnum);
 
-% S8 
+% S10 
 significance_matrix = tSC_coupling_test(Matrix,p_sig,minspikesnum,rythmgroupnum == 13,tSC_num);
 tSC_Zshift_plot(Matrix,significance_matrix,tSC_num);
 tSC_coupled_neurons_distribution(significance_matrix,tSC_num,pRayleigh_theta,rythmgroupnum);
 
-%% Figure 5 and S9-S13
-% Optogenetic stimulation of PV-expressing mS neurons evokes tSC-like
+%% Figure 6 and S14-S19
+% Optogenetic stimulation of PV-expressing MS neurons evokes tSC-like
 % activity patterns in the CA1.
 %-------------------------------------------------------------------------
 
-% Figure 5 (except for panel C), S12C and S13 is created in python with the
+% Figure 6 (except for panel C and G), S12C and S13 is created in python with the
 % plotMeantSCcycle function of the 'Analysis framework for the extraction
 % of theta-nested spectral components' package by Lopes-dos-Santos et al.,
-% 2018. S9 demonstrates track reconstruction and built up from micropsopy
+% 2018. S14 demonstrates track reconstruction and built up from micropsopy
 % images.
 
-% 5C,S11A and S11B is created with Cellbase 
+% 6C,S16A and S16B is created with Cellbase 
 % (https://github.com/hangyabalazs/CellBase) 
 choosecb('tSC_stim')
 load(getpref('cellbase','fname'));
@@ -348,7 +417,27 @@ tsc_interneuron_stim('2391_210112a_1.44');
 tsc_interneuron_stim('2394_210202b_1.4');
 tsc_interneuron_stim('2391_210112a_1.84');
 
-% S10
+% 6G
+figure
+boxplot([1-noninhib_tsc_ratio(:,6),1-inhib_tsc_ratio(:,6)])
+hold on
+line([ones(length(noninhib_tsc_ratio),1),ones(length(noninhib_tsc_ratio),1)*2]',[1-noninhib_tsc_ratio(:,6),1-inhib_tsc_ratio(:,6)]','Color',[0.3,0.3,0.3,0.3])
+[p,h] = signrank(1-noninhib_tsc_ratio(:,6),1-inhib_tsc_ratio(:,6));
+set(gca,'xticklabels',{'control','inhibited'})
+ylabel('Ratio of theta cycles expressing strong tSCs')
+
+% S19A
+mainpath = 'L:\Balint\tsc\awake_mouse_control\';
+load([mainpath, 'ses_Matrix.mat'],'ses_Matrix');
+figure
+boxplot([1-noninhib_tsc_ratio(:,6),1-inhib_tsc_ratio(:,6)])
+hold on
+line([ones(length(noninhib_tsc_ratio),1),ones(length(noninhib_tsc_ratio),1)*2]',[1-noninhib_tsc_ratio(:,6),1-inhib_tsc_ratio(:,6)]','Color',[0.3,0.3,0.3,0.3])
+[p,h] = signrank(1-noninhib_tsc_ratio(:,6),1-inhib_tsc_ratio(:,6));
+set(gca,'xticklabels',{'control period','stimulation period (YFP)'})
+ylabel('Ratio of theta cycles expressing strong tSCs')
+
+% S15A
 mainpath = 'L:\Balint\tsc\STIM_Exp';
 animal = '2384';
 ch = '86';
@@ -359,11 +448,20 @@ tmS_STA(mainpath, animal, '2', ch, 3, 3, time_window, 4, 2) % tmS 35 Hz
 tmS_STA(mainpath, animal, '2', ch, 4, 4, time_window, 4, 3) % tmS 54 Hz
 tmS_STA(mainpath, animal, '3', ch, 1, 4, time_window, 4, 4) % tmS 80 Hz
 
-% S12B 
+% S15B
+figure
+animal = '2481';
+ch = '253';
+tmS_STA(mainpath, animal, '2', ch, 2, 2, time_window, 4, 1) % tmS 22 Hz control
+tmS_STA(mainpath, animal, '2', ch, 3, 3, time_window, 4, 2) % tmS 35 Hz control
+tmS_STA(mainpath, animal, '2', ch, 4, 4, time_window, 4, 3) % tmS 54 Hz control
+tmS_STA(mainpath, animal, '3', ch, 1, 4, time_window, 4, 4) % tmS 80 Hz control
+
+% S17B 
 figure
 tmS_STA(mainpath, animal, '2', ch, 1, 1, time_window, 1, 1) % 8 Hz stim
 
-% S11C
+% S16C
 figure
 nchannels = 276;
 samplingrate_ap = 20000;
@@ -373,14 +471,14 @@ for neuron = 1:length(CELLIDLIST)
     [fr(neuron),p2v(neuron)] = get_waveforms(CELLIDLIST(neuron),nchannels,samplingrate_ap,0);    
 end
 scatter(fr,p2v,'.');
-%% Figure 6, S14 -- MS neurons show phase coupling to hippocampal tSCs in
+%% Figure 7, S14 -- MS neurons show phase coupling to hippocampal tSCs in
 % anesthetized rodents
 %--------------------------------------------------------------------------
 
-% Figure 6
+% Figure 7
 mainpath='L:\Balint\tsc\anast_rat\';
 tsc_anesthetized_fig(mainpath)
 
-% Figure S14
+% Figure S20
 mainpath='L:\Balint\tsc\anast_mouse\';
 tsc_anesthetized_fig(mainpath)
