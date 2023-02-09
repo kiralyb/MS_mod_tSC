@@ -10,7 +10,7 @@ The figures and supplementary figures of 'The medial septum modulates hippocampa
 - anesthetized mouse (hippocampal LFP - septal units)
 - optogenetic stimulation of PV experessing septal neurons in mice (hippocampal LFP, hippocampal units - septal stimulus events)
 
-Demo session data, showing the required data format and hierarchy, is avaibale at the following link: https://drive.google.com/drive/folders/1H5beLdio0pAFR93i2OrGHdBNww7z-unu?usp=sharing
+Demo session data, showing the required data format and hierarchy, is avaibale at the following link: https://figshare.com/articles/dataset/Demo_data_for_the_MATLAB_code_for_analyzing_the_connection_between_the_medial_septum_and_hippocampal_oscillations_beyond_the_theta_rhythm_/22060964
 (content: raw downsampled lfp; position data of the animal (optional); stimulation times (optional); preprocessed data after spike sorting and tSC extraction)
 (e.g. tSC_run_session_analyses ('L:\Balint\tsc\awake_mouse\','20161989','107108','10',1,1,'awake_mouse') for the demo session, see code documentation for further details on the inputs)
 
