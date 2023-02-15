@@ -133,7 +133,7 @@ avg_cycle_speed_norm = bsxfun(@rdivide,(bsxfun(@minus, avg_cycle_speed, avg_allc
 tsc_box_anova(avg_cycle_speed,avg_cycle_speed_norm,1:size(avg_cycle_speed,2));
 ylabel('Speed during theta cycles')
 
-% Panel S1D and S1E
+% Panel S1D-F
 tSC_correlation_fig(ses_Matrix,tSC_num);
 
 %% Figure 2 and S2-S4
