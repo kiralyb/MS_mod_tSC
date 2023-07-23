@@ -1,4 +1,4 @@
-function tSC_coupling_epprops_comp
+% tSC_coupling_epprops_comp
 %Compar differnt electrophysiological properties of tSC coupled and not
 %coupled neurons from preprocessed porperty data.
 % Properties: firing rate, theta coupling, intra-burst spike
@@ -97,6 +97,7 @@ subplot(1,2,2); rose(hang_theta(significance_matrix(5,:)>0 & pRayleigh_theta(:,7
 % pie([sum(SWR_fr(non_tsc_coupled)>All_fr(non_tsc_coupled))/length(non_tsc_coupled),sum(SWR_fr(non_tsc_coupled)<All_fr(non_tsc_coupled))/length(non_tsc_coupled)])
 
 % speed correlation strength
+frspeed_rho = vertcat(Matrix.frspeed_rho);
 tsc_coupled = find(sum(significance_matrix(1:4,[1:20,46:end]))>0);
 non_tsc_coupled = find(significance_matrix(5,[1:20,46:end])==1);
 figure
