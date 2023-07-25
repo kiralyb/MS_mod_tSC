@@ -6,13 +6,13 @@ function Z_decr = tSC_coupling_shufflingcontroll(mainpath,p_sig,minspikesnum,tSC
 %   TSC_NEURON_COUPLING function. Nerons with less spikes than
 %   MINSPIKESNUM during theta cycles with tSC are automatically considered
 %   non coupled. TSC_NUM defines the number of tSC required to be tested.
-%   The Figure S6 of the Kir·ly et al. manuscript and he number of
+%   The Figure S6 of the Kir√°ly et al. manuscript and he number of
 %   neurons with decreased maximal Rayleigh's Z is returned for each tSC
 %   (Z_DECR). 
 %
 %   See also TSC_NEURON_COUPLING
 
-%   B·lint Kir·ly
+%   B√°lint Kir√°ly
 %   Institute of Experimental Medicine, Budapest, Hungary
 %   kiraly.balint@koki.hu
 %   01-Jan-2022
@@ -21,7 +21,7 @@ function Z_decr = tSC_coupling_shufflingcontroll(mainpath,p_sig,minspikesnum,tSC
 % Load preprocessed non-shuffled and shuffled coupling data
 load([mainpath, 'Matrix.mat'],'Matrix');
 Matrix_shuffle = load([mainpath,'Matrix_shuffle.mat'],'Matrix');
-Matrix_shuffle = Matrix_shuffle.Matrix;
+
 n = length(Matrix);
 % Find significcant tSC coupling for non-shuffled and shuffled spikes
 significance_matrix = tSC_coupling_test(Matrix,p_sig,minspikesnum,ones(1,n),tSC_num);
