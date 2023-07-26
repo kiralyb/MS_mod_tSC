@@ -237,7 +237,6 @@ hold on
 rose(hang_theta(filter,i),30)
 end
 
-
 for i = 1:5
 subplot(4,6,i+6)
 rose(zeros(1,40))
@@ -419,6 +418,8 @@ tsc_interneuron_stim('2391_210112a_1.84');
 
 % 6G
 figure
+noninhib_tsc_ratio =  vertcat(ses_Matrix.noninhib_tsc_ratio);
+inhib_tsc_ratio =  vertcat(ses_Matrix.inhib_tsc_ratio);
 boxplot([1-noninhib_tsc_ratio(:,6),1-inhib_tsc_ratio(:,6)])
 hold on
 line([ones(length(noninhib_tsc_ratio),1),ones(length(noninhib_tsc_ratio),1)*2]',[1-noninhib_tsc_ratio(:,6),1-inhib_tsc_ratio(:,6)]','Color',[0.3,0.3,0.3,0.3])
@@ -426,9 +427,11 @@ line([ones(length(noninhib_tsc_ratio),1),ones(length(noninhib_tsc_ratio),1)*2]',
 set(gca,'xticklabels',{'control','inhibited'})
 ylabel('Ratio of theta cycles expressing strong tSCs')
 
-% S19A
+% S18A
 mainpath = 'L:\Balint\tsc\awake_mouse_control\';
 load([mainpath, 'ses_Matrix.mat'],'ses_Matrix');
+noninhib_tsc_ratio =  vertcat(ses_Matrix.noninhib_tsc_ratio);
+inhib_tsc_ratio =  vertcat(ses_Matrix.inhib_tsc_ratio);
 figure
 boxplot([1-noninhib_tsc_ratio(:,6),1-inhib_tsc_ratio(:,6)])
 hold on
@@ -457,7 +460,7 @@ tmS_STA(mainpath, animal, '2', ch, 3, 3, time_window, 4, 2) % tmS 35 Hz control
 tmS_STA(mainpath, animal, '2', ch, 4, 4, time_window, 4, 3) % tmS 54 Hz control
 tmS_STA(mainpath, animal, '3', ch, 1, 4, time_window, 4, 4) % tmS 80 Hz control
 
-% S17B 
+% S_Rew_17B 
 figure
 tmS_STA(mainpath, animal, '2', ch, 1, 1, time_window, 1, 1) % 8 Hz stim
 
@@ -479,6 +482,6 @@ scatter(fr,p2v,'.');
 mainpath='L:\Balint\tsc\anast_rat\';
 tsc_anesthetized_fig(mainpath)
 
-% Figure S20
+% Figure S19
 mainpath='L:\Balint\tsc\anast_mouse\';
 tsc_anesthetized_fig(mainpath)
