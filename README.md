@@ -1,4 +1,4 @@
-# MATLAB code for analyzing the connection between the medial septum and hippocampal oscillations beyond the theta rhythm.
+# MATLAB code for 'The medial septum controls hippocampal supra-theta oscillations'
 
 ## Description
 
