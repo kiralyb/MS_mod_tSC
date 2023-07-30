@@ -183,7 +183,7 @@ ylim([-1.5,1.5])
 xlabel('Relative firing rate during tSC1 cycles')
 ylabel('Relative firing rate during tSC4 cycles')
 
-% Panel C and Fig S2C-E
+% Panel C and Fig S2F-H
 types = [0,1,13,0];
 titles = {'Phase coupled','Pacemaker','Theta follower','tSC1 activated'};
 for type = 1:4
@@ -228,7 +228,7 @@ hold on
 rose(ones(1,20)*circ_mean(Phase_diff),360)
 title('Preferred theta phase differences tSC1-tSC4 cycles')
 
-% Fig S2a-b and corresponding reviwer figs
+% Fig S2a-e
 figure
 for i = 1:6
 subplot(4,6,i) 
@@ -360,10 +360,10 @@ tSC_neuron_coupling(mainpath,'20161869','45','32',1,0,3)
 tSC_neuron_coupling(mainpath,'20161865','104105','31',1,0,3)
 tSC_neuron_coupling(mainpath,'20161988','281282','12',1,0,1)
 
-% Panel C
+% Panel C-D
 tSC_population_psth(Matrix,significance_matrix,tSC_num,160,12);
 
-% Panel D - F
+% Panel E - F
 tSC_coupled_neurons_distribution(significance_matrix,tSC_num,vertcat(Matrix.pRayleigh),vertcat(Matrix.rythmgroupnum));
 
 % Fig S6
